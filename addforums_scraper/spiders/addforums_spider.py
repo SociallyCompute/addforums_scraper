@@ -81,7 +81,7 @@ class AddforumsSpider(scrapy.Spider):
             p_datetime = datetime.datetime.strptime(p_datetime, "%m-%d-%y, %I:%M %p")
             p['date'] = p_datetime.strftime("%m/%d/%Y %H:%M:%S")
 
-            posts_scraped.append({'id': id, 'uniqueID': p['uniqueID'], 'poster': p['poster']})
+            posts_scraped.append((id, p['uniqueID'], p['poster']))
 
             replyTo = ''
             inferred_replies = ''
@@ -90,13 +90,13 @@ class AddforumsSpider(scrapy.Spider):
                 reply_to_id = quote.xpath(".//a[img[contains(@class, 'inlineimg')]]/@href").extract_first()
                 if reply_to_id:
                     reply_to_id = to_int(re.findall(self.patterns['post_id'], reply_to_id)[0])
-                    reply_to_post = next((item for item in posts_scraped if item["id"] == reply_to_id), None)
+                    reply_to_post = next((item for item in posts_scraped if item[0] == reply_to_id), None)
                     if reply_to_post:
-                        replyTo = reply_to_post['uniqueID']
-                        inferred_replies = reply_to_post['poster']
+                        replyTo = reply_to_post[1]
+                        inferred_replies = reply_to_post[2]
                 else:
-                    replyTo = posts_scraped[0]['uniqueID']
-                    inferred_replies = posts_scraped[0]['poster']
+                    replyTo = posts_scraped[0][1]
+                    inferred_replies = posts_scraped[0][2]
             p['replyTo'] = replyTo
 
             p['inferred_replies'] = inferred_replies
