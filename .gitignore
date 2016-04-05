@@ -1,5 +1,6 @@
 *.pyc
 *.json
+*.csv
 *.ipynb
 .ipynb_checkpoints/
 *.log

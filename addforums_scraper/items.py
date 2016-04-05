@@ -8,7 +8,15 @@
 import scrapy
 
 
-class AddforumsScraperItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class PostItem(scrapy.Item):
+    unique_fields = ['uniqueID']
+
+    uniqueID = scrapy.Field()
+    qid = scrapy.Field()
+    localID = scrapy.Field()
+    title = scrapy.Field()
+    poster = scrapy.Field()
+    date = scrapy.Field()
+    replyTo = scrapy.Field()
+    content = scrapy.Field()
+    inferred_replies = scrapy.Field()

@@ -9,14 +9,23 @@
 #     http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 #     http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
 
+import datetime
+
 BOT_NAME = 'addforums_scraper'
 
 SPIDER_MODULES = ['addforums_scraper.spiders']
 NEWSPIDER_MODULE = 'addforums_scraper.spiders'
 
+FEED_EXPORT_FIELDS = ["uniqueID", "qid", "localID", "title", "poster", "date", "replyTo", "content", "inferred_replies"]
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'addforums_scraper (+http://www.yourdomain.com)'
+USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.149 Safari/537.36'
+
+# Spider persistence
+JOBDIR = 'job_state'
+
+# logging options
+LOG_FILE = '%saddforums.log' % (datetime.datetime.now().strftime('%Y_%m_%d__%H_%M'))
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS=32
@@ -61,20 +70,20 @@ NEWSPIDER_MODULE = 'addforums_scraper.spiders'
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'addforums_scraper.pipelines.SomePipeline': 300,
-#}
+# ITEM_PIPELINES = {
+#    'addforums_scraper.pipelines.CsvWriterPipeline': 300,
+# }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html
 # NOTE: AutoThrottle will honour the standard settings for concurrency and delay
-#AUTOTHROTTLE_ENABLED=True
+AUTOTHROTTLE_ENABLED=True
 # The initial download delay
-#AUTOTHROTTLE_START_DELAY=5
+AUTOTHROTTLE_START_DELAY=0.3
 # The maximum download delay to be set in case of high latencies
-#AUTOTHROTTLE_MAX_DELAY=60
+AUTOTHROTTLE_MAX_DELAY=60
 # Enable showing throttling stats for every response received:
-#AUTOTHROTTLE_DEBUG=False
+AUTOTHROTTLE_DEBUG=True
 
 # Enable and configure HTTP caching (disabled by default)
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
